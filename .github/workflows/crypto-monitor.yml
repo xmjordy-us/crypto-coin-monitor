@@ -1,0 +1,52 @@
+name: Crypto monitor
+
+on:
+  schedule:
+    # UTC; 09:13, 15:13, 21:13 and 03:13 Beijing/Tokyo.  Deliberately off the hour.
+    - cron: '13 1,7,13,19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: crypto-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Collect and assess market data
+        id: monitor
+        env:
+          COINGLASS_API_KEY: ${{ secrets.COINGLASS_API_KEY }}
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+          COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
+          ALERT_WEBHOOK_URL: ${{ secrets.CRYPTO_ALERT_WEBHOOK_URL }}
+        run: python monitor/crypto_monitor.py
+      - name: Publish a run report
+        if: always()
+        run: cat reports/latest.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Persist state (retry on concurrent remote update)
+        if: always()
+        run: |
+          git config user.name "crypto-monitor[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/monitor-state.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: update crypto monitor state"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((attempt * 4))
+          done
+          echo "State push conflicted after retries; next run continues with the committed baseline." >&2
+          exit 0

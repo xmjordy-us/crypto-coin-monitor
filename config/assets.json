@@ -1,0 +1,10 @@
+{
+  "BTC": {"binance_symbol": "BTCUSDT", "coingecko_id": "bitcoin", "coinglass_symbol": "BTC", "coinalyze_symbol": "BTCUSDT_PERP.A", "identity": "Bitcoin"},
+  "BNB": {"binance_symbol": "BNBUSDT", "coingecko_id": "binancecoin", "coinglass_symbol": "BNB", "coinalyze_symbol": "BNBUSDT_PERP.A", "identity": "BNB"},
+  "BONK": {"binance_symbol": "BONKUSDT", "coingecko_id": "bonk", "coinglass_symbol": "BONK", "coinalyze_symbol": "BONKUSDT_PERP.A", "identity": "Bonk"},
+  "ZEC": {"binance_symbol": "ZECUSDT", "coingecko_id": "zcash", "coinglass_symbol": "ZEC", "coinalyze_symbol": "ZECUSDT_PERP.A", "identity": "Zcash"},
+  "SOL": {"binance_symbol": "SOLUSDT", "coingecko_id": "solana", "coinglass_symbol": "SOL", "coinalyze_symbol": "SOLUSDT_PERP.A", "identity": "Solana"},
+  "AI": {"binance_symbol": "AIUSDT", "coingecko_id": "sleepless-ai", "coinglass_symbol": "AI", "coinalyze_symbol": "AIUSDT_PERP.A", "identity": "Sleepless AI", "require_name": "Sleepless AI"},
+  "ORDI": {"binance_symbol": "ORDIUSDT", "coingecko_id": "ordinals", "coinglass_symbol": "ORDI", "coinalyze_symbol": "ORDIUSDT_PERP.A", "identity": "ORDI"}
+}
+
