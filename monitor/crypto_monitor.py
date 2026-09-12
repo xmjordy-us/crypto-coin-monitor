@@ -24,6 +24,7 @@ SOURCES = {
     "coingecko": "https://api.coingecko.com/api/v3/coins/markets",
     "coinalyze": "https://api.coinalyze.net/v1/open-interest",
 }
+COINGLASS_CACHE = None
 
 def get_json(url, headers=None, timeout=None):
     timeout = timeout or float(os.getenv("REQUEST_TIMEOUT_SECONDS", "12"))
@@ -48,22 +49,23 @@ def value_from(item, names):
     return None
 
 def coinglass_data(symbol):
+    global COINGLASS_CACHE
     key = os.getenv("COINGLASS_API_KEY")
     if not key:
         return {"market_cap": None, "circulating_supply": None, "open_interest": None}, None, "COINGLASS_API_KEY not configured"
     headers = {"CG-API-KEY": key, "Accept": "application/json"}
-    # CoinGlass API paths are kept in one place; response parsing accepts the
-    # documented field variants while refusing a missing primary value.
-    market, market_err = get_json(f"{SOURCES['coinglass']}/api/coin/markets?symbol={symbol}", headers)
-    oi, oi_err = get_json(f"{SOURCES['coinglass']}/api/futures/open-interest?symbol={symbol}", headers)
-    def payload(x):
-        x = x.get("data") if isinstance(x, dict) else x
-        return x[0] if isinstance(x, list) and x else x
-    m, o = payload(market), payload(oi)
-    cap = value_from(m, ("marketCap", "market_cap", "circulatingMarketCap"))
-    supply = value_from(m, ("circulatingSupply", "circulating_supply"))
-    open_interest = value_from(o, ("openInterest", "open_interest", "openInterestUsd", "open_interest_usd"))
-    error = "; ".join(x for x in (market_err, oi_err) if x) or None
+    # The documented CoinGlass futures coin-markets endpoint returns aggregate
+    # OI and market cap in one timestamped payload. Fetch once per run to avoid
+    # needless API calls and select the exact symbol locally.
+    if COINGLASS_CACHE is None:
+        response, error = get_json(f"{SOURCES['coinglass']}/api/futures/coins-markets?per_page=100&page=1", headers)
+        rows = response.get("data", []) if isinstance(response, dict) else []
+        COINGLASS_CACHE = ({str(row.get("symbol", "")).upper(): row for row in rows if isinstance(row, dict)}, error)
+    rows, error = COINGLASS_CACHE
+    m = rows.get(symbol.upper())
+    cap = value_from(m, ("market_cap_usd", "marketCap", "market_cap"))
+    supply = value_from(m, ("circulating_supply", "circulatingSupply"))
+    open_interest = value_from(m, ("open_interest_usd", "openInterest", "open_interest"))
     return {"market_cap": cap, "circulating_supply": supply, "open_interest": open_interest}, m, error
 
 def coingecko_rows():
