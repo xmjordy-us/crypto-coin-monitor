@@ -10,12 +10,12 @@ Add these under **Settings → Secrets and variables → Actions**:
 
 | Secret | Required | Purpose |
 |---|---|---|
-| `COINGLASS_API_KEY` | Yes for a complete baseline | CoinGlass primary circulating market cap and aggregated open interest |
-| `COINGECKO_API_KEY` | Recommended | CoinGecko market-cap verification; a public attempt is made without it |
-| `COINALYZE_API_KEY` | Recommended | Coinalyze OI verification |
+| `COINGLASS_API_KEY` | Optional, preferred | CoinGlass primary circulating market cap and aggregated open interest; without it the public CoinGlass asset page is parsed |
+| `COINGECKO_API_KEY` | Optional | CoinGecko market-cap verification; its public asset page is used when the unauthenticated endpoint is unavailable |
+| `COINALYZE_API_KEY` | Optional | Coinalyze OI verification; its public instrument page is used when no key exists |
 | `CRYPTO_ALERT_WEBHOOK_URL` | Optional | Slack-compatible incoming webhook; only newly confirmed anomalies are posted |
 
-No key is stored in the repository.  Without a primary CoinGlass value, the value is `N/A` and `last_complete` is deliberately not advanced.
+No key is stored in the repository. Public-page extraction accepts only labelled machine-readable values; bot blocks, stale/cached pages, or unparseable pages produce `N/A`. Without a primary CoinGlass value, `last_complete` is deliberately not advanced.
 
 ## State and safeguards
 

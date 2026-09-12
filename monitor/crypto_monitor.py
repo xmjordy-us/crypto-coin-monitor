@@ -7,6 +7,7 @@ stored in `latest`; only complete, internally consistent primary values advance
 """
 import json
 import os
+import re
 import time
 import urllib.error
 import urllib.parse
@@ -48,11 +49,39 @@ def value_from(item, names):
             except (TypeError, ValueError): pass
     return None
 
+def public_page_values(url, fields):
+    """Best-effort extraction from an unauthenticated public page.
+
+    Pages often serialize their visible cards into hydration JSON.  This parser
+    intentionally accepts only explicitly labelled values; rendered prose and
+    stale/unlabelled snippets are not promoted into the baseline.
+    """
+    try:
+        request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 crypto-monitor/1.0", "Accept": "text/html"})
+        with urllib.request.urlopen(request, timeout=float(os.getenv("REQUEST_TIMEOUT_SECONDS", "12"))) as response:
+            page = response.read().decode("utf-8", "replace")
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as exc:
+        return {}, str(exc)
+    found = {}
+    for output_name, labels in fields.items():
+        for label in labels:
+            match = re.search(r'["\\\']?' + re.escape(label) + r'["\\\']?\\s*[:=]\\s*["\\\']?([0-9]+(?:\\.[0-9]+)?)', page, re.I)
+            if match:
+                found[output_name] = float(match.group(1))
+                break
+    return found, None if found else "public page had no labelled, machine-readable values"
+
 def coinglass_data(symbol):
     global COINGLASS_CACHE
     key = os.getenv("COINGLASS_API_KEY")
     if not key:
-        return {"market_cap": None, "circulating_supply": None, "open_interest": None}, None, "COINGLASS_API_KEY not configured"
+        page = f"https://www.coinglass.com/currencies/{symbol.lower()}"
+        values, error = public_page_values(page, {
+            "market_cap": ("market_cap_usd", "marketCap", "market_cap"),
+            "circulating_supply": ("circulating_supply", "circulatingSupply"),
+            "open_interest": ("open_interest_usd", "openInterest", "open_interest"),
+        })
+        return {"market_cap": values.get("market_cap"), "circulating_supply": values.get("circulating_supply"), "open_interest": values.get("open_interest")}, values, error
     headers = {"CG-API-KEY": key, "Accept": "application/json"}
     # The documented CoinGlass futures coin-markets endpoint returns aggregate
     # OI and market cap in one timestamped payload. Fetch once per run to avoid
@@ -73,11 +102,27 @@ def coingecko_rows():
     headers = {"Accept": "application/json"}
     if os.getenv("COINGECKO_API_KEY"): headers["x-cg-demo-api-key"] = os.environ["COINGECKO_API_KEY"]
     rows, error = get_json(SOURCES["coingecko"] + "?" + urllib.parse.urlencode({"vs_currency":"usd", "ids":ids, "sparkline":"false"}), headers)
-    return {row.get("id"): row for row in rows or [] if isinstance(row, dict)}, error
+    result = {row.get("id"): row for row in rows or [] if isinstance(row, dict)}
+    # If the unauthenticated endpoint is rate-limited, a public page is a
+    # verification-only fallback; it never replaces CoinGlass primary values.
+    if not result:
+        errors = [error]
+        for asset in ASSETS.values():
+            coin_id = asset["coingecko_id"]
+            values, page_error = public_page_values(f"https://www.coingecko.com/en/coins/{coin_id}", {"market_cap": ("market_cap", "marketCap")})
+            # A page slug alone is not an identity confirmation.  In
+            # particular, AI remains unconfirmed until the API returns the
+            # literal name "Sleepless AI".
+            result[coin_id] = {"id": coin_id, "market_cap": values.get("market_cap")}
+            errors.append(page_error)
+        error = "; ".join(str(x) for x in errors if x)
+    return result, error
 
 def coinalyze_oi(symbol):
     key = os.getenv("COINALYZE_API_KEY")
-    if not key: return None, "COINALYZE_API_KEY not configured"
+    if not key:
+        values, error = public_page_values(f"https://coinalyze.net/{symbol.lower()}/", {"open_interest": ("open_interest_usd", "openInterest", "open_interest")})
+        return values.get("open_interest"), error
     url = SOURCES["coinalyze"] + "?" + urllib.parse.urlencode({"api_key": key, "symbols": symbol, "convert_to_usd":"true"})
     data, error = get_json(url)
     row = data[0] if isinstance(data, list) and data else None
