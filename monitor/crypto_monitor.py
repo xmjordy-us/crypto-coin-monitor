@@ -21,6 +21,7 @@ STATE_PATH, REPORT_PATH = ROOT / "state/monitor-state.json", ROOT / "reports/lat
 NOW = datetime.now(timezone.utc)
 SOURCES = {
     "binance": "https://api.binance.com/api/v3/ticker/price",
+    "binance_public_mirror": "https://data-api.binance.vision/api/v3/ticker/price",
     "coinglass": "https://open-api-v4.coinglass.com",
     "coingecko": "https://api.coingecko.com/api/v3/coins/markets",
     "coinalyze": "https://api.coinalyze.net/v1/open-interest",
@@ -97,6 +98,17 @@ def coinglass_data(symbol):
     open_interest = value_from(m, ("open_interest_usd", "openInterest", "open_interest"))
     return {"market_cap": cap, "circulating_supply": supply, "open_interest": open_interest}, m, error
 
+def binance_spot(symbol):
+    """Use only Binance-operated public endpoints; never substitute another venue."""
+    errors = []
+    for source in (SOURCES["binance"], SOURCES["binance_public_mirror"]):
+        data, error = get_json(source + "?" + urllib.parse.urlencode({"symbol": symbol}))
+        price = value_from(data, ("price",))
+        if price is not None:
+            return price, data, source, None
+        errors.append(error or "Binance response had no price")
+    return None, None, SOURCES["binance"], "; ".join(errors)
+
 def coingecko_rows():
     ids = ",".join(asset["coingecko_id"] for asset in ASSETS.values())
     headers = {"Accept": "application/json"}
@@ -146,8 +158,7 @@ def main():
     cg_rows, cg_error = coingecko_rows()
     assets, source_errors = {}, {"coingecko": cg_error}
     for ticker, asset in ASSETS.items():
-        binance, binance_error = get_json(SOURCES["binance"] + "?" + urllib.parse.urlencode({"symbol": asset["binance_symbol"]}))
-        price = value_from(binance, ("price",))
+        price, binance, binance_source, binance_error = binance_spot(asset["binance_symbol"])
         primary, raw_primary, glass_error = coinglass_data(asset["coinglass_symbol"])
         verify = cg_rows.get(asset["coingecko_id"], {})
         verify_cap = value_from(verify, ("market_cap",))
@@ -163,7 +174,7 @@ def main():
           "coinalyze_oi_usd": verify_oi, "market_cap_gap_pct": cap_gap, "oi_gap_pct": oi_gap,
           "verification_warning": any(gap is not None and gap > threshold for gap in (cap_gap, oi_gap)),
           "high_risk_supply": supply_risk,
-          "sources": {"binance": SOURCES["binance"], "coinglass": SOURCES["coinglass"], "coingecko": SOURCES["coingecko"], "coinalyze": SOURCES["coinalyze"]},
+          "sources": {"binance": binance_source, "coinglass": SOURCES["coinglass"], "coingecko": SOURCES["coingecko"], "coinalyze": SOURCES["coinalyze"]},
           "errors": {"binance": binance_error, "coinglass": glass_error, "coinalyze": coinalyze_error},
           "raw": {"binance": binance, "coinglass": raw_primary, "coingecko": verify}
         }
@@ -183,10 +194,13 @@ def main():
     old = state.get("confirmed_anomalies", {})
     new = {k:v for k,v in anomalies.items() if old.get(k) != v}
     state["confirmed_anomalies"] = anomalies
-    write_report(snapshot, complete, daily_valid, new)
-    save_state(state)
+    alert_outcome = "未发送：未配置 CRYPTO_ALERT_WEBHOOK_URL"
     if new and os.getenv("ALERT_WEBHOOK_URL"):
-        post_alert(new)
+        alert_outcome = "已发送新增确认异常" if post_alert(new) else "发送失败：webhook 未接受请求"
+    elif os.getenv("ALERT_WEBHOOK_URL"):
+        alert_outcome = "未触发：本次没有新增确认异常"
+    write_report(snapshot, complete, daily_valid, new, alert_outcome)
+    save_state(state)
 
 def detect_anomalies(snapshot, prior):
     # Conservative confirmed switches: OI / circulating market-cap crosses 10%.
@@ -200,9 +214,9 @@ def detect_anomalies(snapshot, prior):
             if zone == "high": result[f"{ticker}:oi_cap"] = zone
     return result
 
-def write_report(snapshot, complete, daily_valid, new):
+def write_report(snapshot, complete, daily_valid, new, alert_outcome):
     beijing = NOW.astimezone(timezone(timedelta(hours=8)))
-    lines = ["# 加密货币监控", "", "## 结论", "", f"采集时间：{NOW.strftime('%Y-%m-%d %H:%M')} UTC / {beijing.strftime('%Y-%m-%d %H:%M')} 北京时间。", f"主数据完整性：{'完整，可更新 last-complete' if complete else '不完整；last-complete 未更新'}。完整日比较：{'可用' if daily_valid else 'N/A'}。", "", "## 紧凑主表", "", "|资产|Binance现货|CoinGlass流通市值|CoinGlass聚合OI|复核/风险|", "|---|---:|---:|---:|---|"]
+    lines = ["# 加密货币监控", "", "## 结论", "", f"采集时间：{NOW.strftime('%Y-%m-%d %H:%M')} UTC / {beijing.strftime('%Y-%m-%d %H:%M')} 北京时间。", f"主数据完整性：{'完整，可更新 last-complete' if complete else '不完整；last-complete 未更新'}。完整日比较：{'可用' if daily_valid else 'N/A'}。", f"推送状态：{alert_outcome}。", "", "## 紧凑主表", "", "|资产|Binance现货|CoinGlass流通市值|CoinGlass聚合OI|复核/风险|", "|---|---:|---:|---:|---|"]
     for ticker, a in snapshot["assets"].items():
         flags=[]
         if not a["identity_ok"]: flags.append("身份不符")
@@ -219,7 +233,10 @@ def write_report(snapshot, complete, daily_valid, new):
 
 def post_alert(new):
     body = json.dumps({"text": "Crypto monitor: new confirmed anomaly\n" + "\n".join(f"- {k}: {v}" for k,v in new.items())}).encode()
-    try: urllib.request.urlopen(urllib.request.Request(os.environ["ALERT_WEBHOOK_URL"], data=body, headers={"Content-Type":"application/json"}), timeout=12)
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError): pass
+    try:
+        with urllib.request.urlopen(urllib.request.Request(os.environ["ALERT_WEBHOOK_URL"], data=body, headers={"Content-Type":"application/json"}), timeout=12) as response:
+            return 200 <= response.status < 300
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError):
+        return False
 
 if __name__ == "__main__": main()

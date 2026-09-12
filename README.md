@@ -17,6 +17,10 @@ Add these under **Settings → Secrets and variables → Actions**:
 
 No key is stored in the repository. Public-page extraction accepts only labelled machine-readable values; bot blocks, stale/cached pages, or unparseable pages produce `N/A`. Without a primary CoinGlass value, `last_complete` is deliberately not advanced.
 
+GitHub-hosted runners can receive HTTP 451 from `api.binance.com`. The monitor therefore retries the same public ticker request through Binance's official `data-api.binance.vision` mirror; it never substitutes a non-Binance price source.
+
+`CRYPTO_ALERT_WEBHOOK_URL` is intentionally exception-only: a report is posted only for a newly confirmed anomaly. Each Actions summary states whether the webhook was absent or simply not triggered, without revealing a secret.
+
 ## State and safeguards
 
 - `state/monitor-state.json` stores `latest`, `last_complete`, `previous_complete`, raw payloads, source errors and confirmed anomaly state.
