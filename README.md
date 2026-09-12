@@ -13,7 +13,7 @@ Add these under **Settings → Secrets and variables → Actions**:
 | `COINGLASS_API_KEY` | Yes for a complete baseline | CoinGlass primary circulating market cap and aggregated open interest |
 | `COINGECKO_API_KEY` | Recommended | CoinGecko market-cap verification; a public attempt is made without it |
 | `COINALYZE_API_KEY` | Recommended | Coinalyze OI verification |
-| `CRYPTO_ALERT_WEBHOOK_URL` | Optional | Generic Slack/Discord-compatible webhook; only newly confirmed anomalies are posted |
+| `CRYPTO_ALERT_WEBHOOK_URL` | Optional | Slack-compatible incoming webhook; only newly confirmed anomalies are posted |
 
 No key is stored in the repository.  Without a primary CoinGlass value, the value is `N/A` and `last_complete` is deliberately not advanced.
 
