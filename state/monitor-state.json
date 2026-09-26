@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "latest": {
-    "captured_at": "2026-09-26T17:07:28.350708+00:00",
+    "captured_at": "2026-09-26T21:56:43.032427+00:00",
     "assets": {
       "BTC": {
         "identity": "Bitcoin",
         "identity_ok": true,
-        "binance_spot_usd": 84088.0,
+        "binance_spot_usd": 84118.48,
         "coinglass_market_cap_usd": null,
         "coinglass_circulating_supply": null,
         "coinglass_aggregated_oi_usd": null,
-        "coingecko_market_cap_usd": 1689378390869.0,
+        "coingecko_market_cap_usd": 1689993944079.0,
         "coinalyze_oi_usd": null,
         "market_cap_gap_pct": null,
         "oi_gap_pct": null,
@@ -30,7 +30,7 @@
         "raw": {
           "binance": {
             "symbol": "BTCUSDT",
-            "price": "84088.00000000"
+            "price": "84118.48000000"
           },
           "coinglass": {},
           "coingecko": {
@@ -38,39 +38,39 @@
             "symbol": "btc",
             "name": "Bitcoin",
             "image": "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400",
-            "current_price": 84093,
-            "market_cap": 1689378390869,
+            "current_price": 84113,
+            "market_cap": 1689993944079,
             "market_cap_rank": 1,
-            "fully_diluted_valuation": 1689378390869,
-            "total_volume": 18731747922,
+            "fully_diluted_valuation": 1689995794766,
+            "total_volume": 17610576839,
             "high_24h": 84296,
-            "low_24h": 83627,
-            "price_change_24h": 244.31,
-            "price_change_percentage_24h": 0.29137,
-            "market_cap_change_24h": 4925115794,
-            "market_cap_change_percentage_24h": 0.29239,
-            "circulating_supply": 20089668.0,
-            "total_supply": 20089668.0,
+            "low_24h": 83758,
+            "price_change_24h": 276.68,
+            "price_change_percentage_24h": 0.3296,
+            "market_cap_change_24h": 5790509843,
+            "market_cap_change_percentage_24h": 0.34381,
+            "circulating_supply": 20089765.0,
+            "total_supply": 20089787.0,
             "max_supply": 21000000.0,
             "ath": 126080,
-            "ath_change_percentage": -33.30198,
+            "ath_change_percentage": -33.28629,
             "ath_date": "2025-10-06T10:57:42.000Z",
             "atl": 67.81,
-            "atl_change_percentage": 123914.19405,
+            "atl_change_percentage": 123943.37865,
             "atl_date": "2013-07-05T16:00:00.000Z",
             "roi": null,
-            "last_updated": "2026-09-26T17:05:20.000Z"
+            "last_updated": "2026-09-26T21:54:20.000Z"
           }
         }
       },
       "BNB": {
         "identity": "BNB",
         "identity_ok": true,
-        "binance_spot_usd": 773.68,
+        "binance_spot_usd": 771.94,
         "coinglass_market_cap_usd": null,
         "coinglass_circulating_supply": null,
         "coinglass_aggregated_oi_usd": null,
-        "coingecko_market_cap_usd": 103031328236.0,
+        "coingecko_market_cap_usd": 102741479021.0,
         "coinalyze_oi_usd": null,
         "market_cap_gap_pct": null,
         "oi_gap_pct": null,
@@ -90,7 +90,7 @@
         "raw": {
           "binance": {
             "symbol": "BNBUSDT",
-            "price": "773.68000000"
+            "price": "771.94000000"
           },
           "coinglass": {},
           "coingecko": {
@@ -98,39 +98,39 @@
             "symbol": "bnb",
             "name": "BNB",
             "image": "https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970",
-            "current_price": 773.77,
-            "market_cap": 103031328236,
+            "current_price": 771.52,
+            "market_cap": 102741479021,
             "market_cap_rank": 4,
-            "fully_diluted_valuation": 103031327864,
-            "total_volume": 655177913,
+            "fully_diluted_valuation": 102741478829,
+            "total_volume": 664788024,
             "high_24h": 777.74,
-            "low_24h": 770.26,
-            "price_change_24h": 0.461312,
-            "price_change_percentage_24h": 0.05965,
-            "market_cap_change_24h": 57898100,
-            "market_cap_change_percentage_24h": 0.05623,
-            "circulating_supply": 133159784.41,
-            "total_supply": 133159780.83,
+            "low_24h": 766.86,
+            "price_change_24h": -1.193342294488275,
+            "price_change_percentage_24h": -0.14691,
+            "market_cap_change_24h": -153004034.95637512,
+            "market_cap_change_percentage_24h": -0.1487,
+            "circulating_supply": 133159772.93,
+            "total_supply": 133159770.01,
             "max_supply": 200000000.0,
             "ath": 1369.99,
-            "ath_change_percentage": -43.52021,
+            "ath_change_percentage": -43.68426,
             "ath_date": "2025-10-13T00:41:24.000Z",
             "atl": 0.0398177,
-            "atl_change_percentage": 1943177.42781,
+            "atl_change_percentage": 1937533.00328,
             "atl_date": "2017-10-18T16:00:00.000Z",
             "roi": null,
-            "last_updated": "2026-09-26T17:05:20.000Z"
+            "last_updated": "2026-09-26T21:54:20.000Z"
           }
         }
       },
       "BONK": {
         "identity": "Bonk",
         "identity_ok": true,
-        "binance_spot_usd": 3.73e-06,
+        "binance_spot_usd": 3.64e-06,
         "coinglass_market_cap_usd": null,
         "coinglass_circulating_supply": null,
         "coinglass_aggregated_oi_usd": null,
-        "coingecko_market_cap_usd": 328523219.0,
+        "coingecko_market_cap_usd": 319947192.0,
         "coinalyze_oi_usd": null,
         "market_cap_gap_pct": null,
         "oi_gap_pct": null,
@@ -150,7 +150,7 @@
         "raw": {
           "binance": {
             "symbol": "BONKUSDT",
-            "price": "0.00000373"
+            "price": "0.00000364"
           },
           "coinglass": {},
           "coingecko": {
@@ -158,39 +158,39 @@
             "symbol": "bonk",
             "name": "Bonk",
             "image": "https://coin-images.coingecko.com/coins/images/28600/large/bonk.jpg?1696527587",
-            "current_price": 3.73e-06,
-            "market_cap": 328523219,
-            "market_cap_rank": 140,
-            "fully_diluted_valuation": 328523219,
-            "total_volume": 39956318,
+            "current_price": 3.64e-06,
+            "market_cap": 319947192,
+            "market_cap_rank": 144,
+            "fully_diluted_valuation": 319947192,
+            "total_volume": 39409631,
             "high_24h": 3.76e-06,
-            "low_24h": 3.64e-06,
-            "price_change_24h": 5.2177e-08,
-            "price_change_percentage_24h": 1.4183,
-            "market_cap_change_24h": 4809166,
-            "market_cap_change_percentage_24h": 1.48562,
-            "circulating_supply": 87994382623168.73,
-            "total_supply": 87994382623743.94,
+            "low_24h": 3.57e-06,
+            "price_change_24h": -1.1676751789e-08,
+            "price_change_percentage_24h": -0.34349,
+            "market_cap_change_24h": -982053.9823884964,
+            "market_cap_change_percentage_24h": -0.306,
+            "circulating_supply": 87994382617165.34,
+            "total_supply": 87994382618675.7,
             "max_supply": 87995282867000.55,
             "ath": 5.825e-05,
-            "ath_change_percentage": -93.5949,
+            "ath_change_percentage": -93.75885,
             "ath_date": "2024-11-19T20:01:06.000Z",
             "atl": 8.6142e-08,
-            "atl_change_percentage": 4231.17657,
+            "atl_change_percentage": 4120.3126,
             "atl_date": "2022-12-29T14:48:46.000Z",
             "roi": null,
-            "last_updated": "2026-09-26T17:05:20.000Z"
+            "last_updated": "2026-09-26T21:54:20.000Z"
           }
         }
       },
       "ZEC": {
         "identity": "Zcash",
         "identity_ok": true,
-        "binance_spot_usd": 1568.07,
+        "binance_spot_usd": 1683.32,
         "coinglass_market_cap_usd": null,
         "coinglass_circulating_supply": null,
         "coinglass_aggregated_oi_usd": null,
-        "coingecko_market_cap_usd": 26634517307.0,
+        "coingecko_market_cap_usd": 28514485714.0,
         "coinalyze_oi_usd": null,
         "market_cap_gap_pct": null,
         "oi_gap_pct": null,
@@ -210,7 +210,7 @@
         "raw": {
           "binance": {
             "symbol": "ZECUSDT",
-            "price": "1568.07000000"
+            "price": "1683.32000000"
           },
           "coinglass": {},
           "coingecko": {
@@ -218,39 +218,39 @@
             "symbol": "zec",
             "name": "Zcash",
             "image": "https://coin-images.coingecko.com/coins/images/486/large/Brandmark-Yellow_%281%29.png?1785810558",
-            "current_price": 1569.48,
-            "market_cap": 26634517307,
+            "current_price": 1682.77,
+            "market_cap": 28514485714,
             "market_cap_rank": 9,
-            "fully_diluted_valuation": 26636888771,
-            "total_volume": 629667355,
-            "high_24h": 1569.79,
+            "fully_diluted_valuation": 28517657964,
+            "total_volume": 985969881,
+            "high_24h": 1583.7,
             "low_24h": 1517.49,
-            "price_change_24h": 21.65,
-            "price_change_percentage_24h": 1.39876,
-            "market_cap_change_24h": 396974063,
-            "market_cap_change_percentage_24h": 1.513,
+            "price_change_24h": 154.32,
+            "price_change_percentage_24h": 10.12325,
+            "market_cap_change_24h": 2603990860,
+            "market_cap_change_percentage_24h": 10.04995,
             "circulating_supply": 16952175.1655448,
-            "total_supply": 16953717.3530448,
+            "total_supply": 16954082.9780448,
             "max_supply": 21000000.0,
             "ath": 3191.93,
-            "ath_change_percentage": -50.82978,
+            "ath_change_percentage": -47.28059,
             "ath_date": "2016-10-28T16:00:00.000Z",
             "atl": 16.08,
-            "atl_change_percentage": 9660.361,
+            "atl_change_percentage": 10364.8797,
             "atl_date": "2024-07-04T20:22:29.000Z",
             "roi": null,
-            "last_updated": "2026-09-26T17:05:20.000Z"
+            "last_updated": "2026-09-26T21:54:20.000Z"
           }
         }
       },
       "SOL": {
         "identity": "Solana",
         "identity_ok": true,
-        "binance_spot_usd": 121.19,
+        "binance_spot_usd": 121.22,
         "coinglass_market_cap_usd": null,
         "coinglass_circulating_supply": null,
         "coinglass_aggregated_oi_usd": null,
-        "coingecko_market_cap_usd": 71333960444.0,
+        "coingecko_market_cap_usd": 71251350687.0,
         "coinalyze_oi_usd": null,
         "market_cap_gap_pct": null,
         "oi_gap_pct": null,
@@ -270,7 +270,7 @@
         "raw": {
           "binance": {
             "symbol": "SOLUSDT",
-            "price": "121.19000000"
+            "price": "121.22000000"
           },
           "coinglass": {},
           "coingecko": {
@@ -278,39 +278,39 @@
             "symbol": "sol",
             "name": "Solana",
             "image": "https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756",
-            "current_price": 121.34,
-            "market_cap": 71333960444,
+            "current_price": 121.21,
+            "market_cap": 71251350687,
             "market_cap_rank": 7,
-            "fully_diluted_valuation": 77044832338,
-            "total_volume": 3524626706,
-            "high_24h": 122.75,
+            "fully_diluted_valuation": 76955612773,
+            "total_volume": 3010279462,
+            "high_24h": 122.36,
             "low_24h": 119.89,
-            "price_change_24h": 0.03973903,
-            "price_change_percentage_24h": 0.03276,
-            "market_cap_change_24h": 49401262,
-            "market_cap_change_percentage_24h": 0.0693,
-            "circulating_supply": 587712609.4791874,
-            "total_supply": 634763793.4866537,
+            "price_change_24h": 0.197407,
+            "price_change_percentage_24h": 0.17601,
+            "market_cap_change_24h": 141831120,
+            "market_cap_change_percentage_24h": 0.19945,
+            "circulating_supply": 587712375.1519727,
+            "total_supply": 634763600.8229673,
             "max_supply": null,
             "ath": 293.31,
-            "ath_change_percentage": -58.62943,
+            "ath_change_percentage": -58.67685,
             "ath_date": "2025-01-19T03:15:27.000Z",
             "atl": 0.500801,
-            "atl_change_percentage": 24130.13813,
+            "atl_change_percentage": 24102.36817,
             "atl_date": "2020-05-11T11:35:23.000Z",
             "roi": null,
-            "last_updated": "2026-09-26T17:05:20.000Z"
+            "last_updated": "2026-09-26T21:54:20.000Z"
           }
         }
       },
       "AI": {
         "identity": "Sleepless AI",
         "identity_ok": true,
-        "binance_spot_usd": 0.0202,
+        "binance_spot_usd": 0.0199,
         "coinglass_market_cap_usd": null,
         "coinglass_circulating_supply": null,
         "coinglass_aggregated_oi_usd": null,
-        "coingecko_market_cap_usd": 2632469.0,
+        "coingecko_market_cap_usd": 2577499.0,
         "coinalyze_oi_usd": null,
         "market_cap_gap_pct": null,
         "oi_gap_pct": null,
@@ -330,7 +330,7 @@
         "raw": {
           "binance": {
             "symbol": "AIUSDT",
-            "price": "0.02020000"
+            "price": "0.01990000"
           },
           "coinglass": {},
           "coingecko": {
@@ -338,39 +338,39 @@
             "symbol": "ai",
             "name": "Sleepless AI",
             "image": "https://coin-images.coingecko.com/coins/images/34011/large/z5d4nRDO_400x400.jpg?1704362731",
-            "current_price": 0.02025081,
-            "market_cap": 2632469,
-            "market_cap_rank": 2237,
-            "fully_diluted_valuation": 20249759,
-            "total_volume": 5440677,
+            "current_price": 0.01983541,
+            "market_cap": 2577499,
+            "market_cap_rank": 2243,
+            "fully_diluted_valuation": 19826916,
+            "total_volume": 5172747,
             "high_24h": 0.02088627,
-            "low_24h": 0.01988981,
-            "price_change_24h": 0.00044001,
-            "price_change_percentage_24h": 2.22107,
-            "market_cap_change_24h": 57065,
-            "market_cap_change_percentage_24h": 2.21576,
+            "low_24h": 0.01973935,
+            "price_change_24h": -0.000175180889411319,
+            "price_change_percentage_24h": -0.64333,
+            "market_cap_change_24h": -23877.63434585184,
+            "market_cap_change_percentage_24h": -0.91788,
             "circulating_supply": 130000000.0,
             "total_supply": 1000000000.0,
             "max_supply": null,
             "ath": 2.34,
-            "ath_change_percentage": -99.13621,
+            "ath_change_percentage": -99.15393,
             "ath_date": "2024-03-09T01:20:20.000Z",
             "atl": 0.01653497,
-            "atl_change_percentage": 22.47262,
+            "atl_change_percentage": 19.96036,
             "atl_date": "2026-08-01T12:29:20.000Z",
             "roi": null,
-            "last_updated": "2026-09-26T17:05:20.000Z"
+            "last_updated": "2026-09-26T21:54:20.000Z"
           }
         }
       },
       "ORDI": {
         "identity": "ORDI",
         "identity_ok": true,
-        "binance_spot_usd": 5.077,
+        "binance_spot_usd": 4.828,
         "coinglass_market_cap_usd": null,
         "coinglass_circulating_supply": null,
         "coinglass_aggregated_oi_usd": null,
-        "coingecko_market_cap_usd": 106578655.0,
+        "coingecko_market_cap_usd": 101436549.0,
         "coinalyze_oi_usd": null,
         "market_cap_gap_pct": null,
         "oi_gap_pct": null,
@@ -390,7 +390,7 @@
         "raw": {
           "binance": {
             "symbol": "ORDIUSDT",
-            "price": "5.07700000"
+            "price": "4.82800000"
           },
           "coinglass": {},
           "coingecko": {
@@ -398,28 +398,28 @@
             "symbol": "ordi",
             "name": "ORDI",
             "image": "https://coin-images.coingecko.com/coins/images/30162/large/ordi.png?1696529082",
-            "current_price": 5.07,
-            "market_cap": 106578655,
-            "market_cap_rank": 279,
-            "fully_diluted_valuation": 106578655,
-            "total_volume": 26828551,
+            "current_price": 4.83,
+            "market_cap": 101436549,
+            "market_cap_rank": 290,
+            "fully_diluted_valuation": 101436549,
+            "total_volume": 30307442,
             "high_24h": 5.35,
-            "low_24h": 4.64,
-            "price_change_24h": 0.418842,
-            "price_change_percentage_24h": 9.01408,
-            "market_cap_change_24h": 9001613,
-            "market_cap_change_percentage_24h": 9.22513,
+            "low_24h": 4.65,
+            "price_change_24h": 0.173121,
+            "price_change_percentage_24h": 3.6877,
+            "market_cap_change_24h": 3643215,
+            "market_cap_change_percentage_24h": 3.72542,
             "circulating_supply": 21000000.0,
             "total_supply": 21000000.0,
             "max_supply": null,
             "ath": 95.52,
-            "ath_change_percentage": -94.6972,
+            "ath_change_percentage": -94.94365,
             "ath_date": "2024-03-04T17:45:22.000Z",
             "atl": 2.1,
-            "atl_change_percentage": 140.71615,
+            "atl_change_percentage": 129.52848,
             "atl_date": "2026-03-29T22:48:00.000Z",
             "roi": null,
-            "last_updated": "2026-09-26T17:05:20.000Z"
+            "last_updated": "2026-09-26T21:54:20.000Z"
           }
         }
       }
@@ -432,5 +432,5 @@
   "last_complete": null,
   "previous_complete": null,
   "confirmed_anomalies": {},
-  "updated_at": "2026-09-26T17:07:28.350708+00:00"
+  "updated_at": "2026-09-26T21:56:43.032427+00:00"
 }
